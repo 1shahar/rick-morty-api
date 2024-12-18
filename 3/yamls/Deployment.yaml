@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rick-morty-api
+  labels:
+    app: rick-morty-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rick-morty-api
+  template:
+    metadata:
+      labels:
+        app: rick-morty-api
+    spec:
+      containers:
+      - name: rick-morty-api
+        image: 1shahar/rick-morty-api
+        ports:
+        - containerPort: 5000

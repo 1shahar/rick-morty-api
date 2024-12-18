@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rick-morty-api-ingress
+spec:
+  rules:
+  - host: "rick-morty"  # The URL you will use to access the service
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rick-morty-api-service  # The name of your service
+            port:
+              number: 5000
