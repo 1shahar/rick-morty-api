@@ -29,6 +29,9 @@ jobs:
       - name: get to folder
         run: cd ./3/yamls
 
+      - name: Verify working directory 
+        run: print(pwd && ls -al")
+
       - name: apply yml
         run: kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
       
