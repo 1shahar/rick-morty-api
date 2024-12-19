@@ -1,4 +1,4 @@
-name: rick and morty api
+name: Rick and Morty API
 
 on:
   pull_request:
@@ -7,43 +7,53 @@ on:
   workflow_dispatch:
 
 jobs:
-  update:
+  deploy_and_test:
     runs-on: ubuntu-latest
     steps:
-      - name: ccheckout code
+      # Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: update and upgrade system
-        run: sudo apt update && sudo apt upgrade 
-
-  minikube-apply-test:
-    needs: update
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
-
-      - name: start minikube
-        id: minikube
+      # Install Minikube and dependencies
+      - name: Install Minikube
         uses: medyagh/setup-minikube@latest
 
-      - name: apply YAMLs
+      - name: Start Minikube
+        id: minikube
+        run: |
+          minikube start --driver=docker
+
+      # Apply the Kubernetes YAMLs
+      - name: Apply YAMLs
         run: |
           cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
-          kubectl apply -f Deployment.yaml -f Service.yaml 
-      
+          kubectl apply -f Deployment.yaml -f Service.yaml
+
+      # Wait for Minikube to be ready and the service to be available
       - name: Wait for Minikube to be ready
         run: |
-          echo "check if minikube ready..."
-          until minikube ip; do
-          echo "minikube not ready retrying in 5 sec..."
-          sleep 5
+          echo "Waiting for Minikube to be fully initialized..."
+          until minikube ip &>/dev/null; do
+            echo "Minikube not ready. Retrying in 5 seconds..."
+            sleep 5
           done
-              
-      - name: get service and test it
-        run: |
           MINIKUBE_IP=$(minikube ip)
+          echo "Minikube IP: $MINIKUBE_IP"
+
+      # Get NodePort for the service
+      - name: Get NodePort and Service URL
+        run: |
           NODEPORT=$(kubectl get svc rick-morty-api-service -o=jsonpath='{.spec.ports[0].nodePort}')
           SERVICE_URL="http://${MINIKUBE_IP}:${NODEPORT}"
-          curl -f $SERVICE_URL || exit 1
-        
+          echo "Service URL: $SERVICE_URL"
+
+      # Expose Minikube to make NodePort accessible
+      - name: Expose Minikube (tunnel)
+        run: |
+          sudo minikube tunnel &
+
+      # Test NodePort service (curl command to check if service is working)
+      - name: Test service
+        run: |
+          echo "Testing service at $SERVICE_URL"
+          curl -v $SERVICE_URL || exit 1
