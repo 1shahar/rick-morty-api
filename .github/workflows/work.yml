@@ -1,24 +1,49 @@
 name: rick and morty api
-
 on:
   pull_request:
     branches:
-      - main
+    - main
   workflow_dispatch:
 
 jobs:
-  checkout:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: update
+        run: sudo apt update && sudo apt upgrade 
+
+  deploy:
+    needs: update
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Update and upgrade system
-        run: ls && cd 3/yamls && pwd
+      - name: Start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@latest
 
-      - name: Update and upgrade system
-        run: echo $(pwd)
+      - name: get to yamls
+        run: cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
 
-      - name: Verify working directory
-        run: pwd && ls -al
-
+      - name: apply yml
+        run: kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
+      
+      - name: wait for apply
+        run: sleep 30
+        
+      - name: Get service url 
+        id: get-service-url 
+        run: echo "SERVICE_URL=$(minikube service rick-morty-api-service --url)" >> $GITHUB_ENV 
+    
+  test: 
+    needs: deploy 
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v4 
+      - name: Test service URL 
+        run:  curl -f ${{ env.SERVICE_URL }} || exit 1
