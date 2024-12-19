@@ -40,8 +40,14 @@ jobs:
           MINIKUBE_IP=$(minikube ip)
           echo "Minikube IP: $MINIKUBE_IP"
 
-      # Get NodePort for the service
-      - name: Get NodePort  Service URL and test
+      - name: Get NodePort, Service URL, and test
         run: |
+    
+          MINIKUBE_IP=$(minikube ip)
           NODEPORT=$(kubectl get svc rick-morty-api-service -o=jsonpath='{.spec.ports[0].nodePort}')
-          curl -f "http://${MINIKUBE_IP}:${NODEPORT}" | exit 1
+          # Debugging: print out Minikube IP and NodePort
+          echo "Minikube IP: $MINIKUBE_IP"
+          echo "NodePort: $NODEPORT"
+          SERVICE_URL="http://${MINIKUBE_IP}:${NODEPORT}"
+          echo "Testing service URL: $SERVICE_URL"
+          curl -f "$SERVICE_URL" || exit 1  
