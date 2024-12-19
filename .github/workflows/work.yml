@@ -42,7 +42,7 @@ jobs:
           kubectl apply -f Deployment.yaml -f Service.yaml
 
       - name: waite for deploy ymals 
-        run: sleep 20 && kubectl gets all
+        run: sleep 20 && kubectl get all
       
       - name: Get NodePort, Service URL, and test
         run: |
