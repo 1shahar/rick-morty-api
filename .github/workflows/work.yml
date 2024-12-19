@@ -16,7 +16,7 @@ jobs:
       - name: update and upgrade system
         run: sudo apt update && sudo apt upgrade 
 
-  deploy:
+  minikube-apply-test:
     needs: update
     runs-on: ubuntu-latest
     steps:
@@ -39,14 +39,7 @@ jobs:
           echo "minikube not ready retrying in 5 sec..."
           sleep 5
           done
-          
-  test: 
-    needs: deploy 
-    runs-on: ubuntu-latest 
-    steps: 
-      - name: Checkout code 
-        uses: actions/checkout@v4 
-      
+              
       - name: get service and test it
         run: |
           MINIKUBE_IP=$(minikube ip)
