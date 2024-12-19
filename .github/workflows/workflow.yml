@@ -5,15 +5,15 @@ on:
     - main
   workflow_dispatch:
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#jobs:
+ # update:
+  #  runs-on: ubuntu-latest
+   # steps:
+    #  - name: Checkout code
+     #   uses: actions/checkout@v4
 
-      - name: Checkout code
-        run: sudo apt update && sudo apt upgrade 
+      #- name: Checkout code
+       # run: sudo apt update && sudo apt upgrade 
 
   deploy:
     needs: update
@@ -22,15 +22,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Start minikube
-        id: minikube
-        uses: medyagh/setup-minikube@latest
+      #- name: Start minikube
+       # id: minikube
+        #uses: medyagh/setup-minikube@latest
 
       - name: get to folder
-        run: cd ./3/yamls
+        run: cd ~/3/yamls
 
       - name: Verify working directory 
-        run: print(pwd && ls -al")
+        run: print(pwd)
 
       - name: apply yml
         run: kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
