@@ -16,7 +16,7 @@ jobs:
         run: sudo apt update && sudo apt upgrade 
 
   deploy:
-    needs: checkout
+    needs: update
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -40,7 +40,7 @@ jobs:
         run: echo "SERVICE_URL=$(minikube service rick-morty-api-service --url)" >> $GITHUB_ENV 
     
   test: 
-    needs: test 
+    needs: deploy 
     runs-on: ubuntu-latest 
     steps: 
       - name: Checkout code 
