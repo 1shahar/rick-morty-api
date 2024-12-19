@@ -1,0 +1,19 @@
+name: test
+on:
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout code
+        run: ls 
+
+      - name: Checkout code
+        run: cd .. && ls  
