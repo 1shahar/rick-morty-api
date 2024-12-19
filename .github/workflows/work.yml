@@ -26,11 +26,9 @@ jobs:
         id: minikube
         uses: medyagh/setup-minikube@latest
 
-      - name: get to yamls
-        run: cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls && ls
-
-      - name: apply yml
-        run: kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
+      - name: apply yamls run:|
+             cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls 
+             kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml      
       
       - name: wait for apply
         run: sleep 30
