@@ -13,7 +13,7 @@ jobs:
      #   uses: actions/checkout@v4
 
       - name: Checkout code
-        run: print("") #sudo apt update && sudo apt upgrade 
+        run: print("hi ") #sudo apt update && sudo apt upgrade 
 
       #- name: Checkout code
        # run: sudo apt update && sudo apt upgrade 
