@@ -41,19 +41,7 @@ jobs:
           echo "Minikube IP: $MINIKUBE_IP"
 
       # Get NodePort for the service
-      - name: Get NodePort and Service URL
+      - name: Get NodePort  Service URL and test
         run: |
           NODEPORT=$(kubectl get svc rick-morty-api-service -o=jsonpath='{.spec.ports[0].nodePort}')
-          SERVICE_URL="http://${MINIKUBE_IP}:${NODEPORT}"
-          echo "Service URL: $SERVICE_URL"
-
-      # Expose Minikube to make NodePort accessible
-      - name: Expose Minikube (tunnel)
-        run: |
-          sudo minikube tunnel &
-
-      # Test NodePort service (curl command to check if service is working)
-      - name: Test service
-        run: |
-          echo "Testing service at $SERVICE_URL"
-          curl -v $SERVICE_URL || exit 1
+          curl -f "http://${MINIKUBE_IP}:${NODEPORT}" | exit 1
