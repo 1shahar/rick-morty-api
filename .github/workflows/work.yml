@@ -10,24 +10,19 @@ jobs:
   deploy_and_test:
     runs-on: ubuntu-latest
     steps:
-      # Checkout code
+     
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Install Minikube and dependencies
-      - name: Install Minikube
+      - name: Install minikube
         uses: medyagh/setup-minikube@latest
 
-      - name: Start Minikube
+      - name: start minikube
         id: minikube
-        run: |
-          minikube start --driver=docker
+        run:  minikube start --driver=docker
 
-
-      # Wait for Minikube to be ready and the service to be available kubectl get pods
-      - name: Wait for Minikube to be ready
+      - name: wait for minikube start
         run: |
-          echo "Waiting for Minikube to be fully initialized..."
           until minikube ip &>/dev/null; do
             echo "Minikube not ready. Retrying in 5 seconds..."
             sleep 5
@@ -35,8 +30,7 @@ jobs:
           MINIKUBE_IP=$(minikube ip)
           echo "Minikube IP: $MINIKUBE_IP"
 
-      # Apply the Kubernetes YAMLs
-      - name: Apply YAMLs
+      - name: apply ymls
         run: |
           cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
           kubectl apply -f Deployment.yaml -f Service.yaml
