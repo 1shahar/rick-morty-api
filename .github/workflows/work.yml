@@ -23,13 +23,8 @@ jobs:
         run: |
           minikube start --driver=docker
 
-      # Apply the Kubernetes YAMLs
-      - name: Apply YAMLs
-        run: |
-          cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
-          kubectl apply -f Deployment.yaml -f Service.yaml
 
-      # Wait for Minikube to be ready and the service to be available
+      # Wait for Minikube to be ready and the service to be available kubectl get pods
       - name: Wait for Minikube to be ready
         run: |
           echo "Waiting for Minikube to be fully initialized..."
@@ -40,6 +35,15 @@ jobs:
           MINIKUBE_IP=$(minikube ip)
           echo "Minikube IP: $MINIKUBE_IP"
 
+      # Apply the Kubernetes YAMLs
+      - name: Apply YAMLs
+        run: |
+          cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
+          kubectl apply -f Deployment.yaml -f Service.yaml
+
+      - name: waite for deploy ymals 
+        run: sleep 20 && kubectl gets all
+      
       - name: Get NodePort, Service URL, and test
         run: |
     
