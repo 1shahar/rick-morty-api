@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,9 +14,6 @@ jobs:
 
       - name: Checkout code
         run: sudo apt update && sudo apt upgrade 
-        
-      - name: get to folder
-        run: cd ./3/yamls
 
   deploy:
     needs: checkout
@@ -29,6 +26,9 @@ jobs:
         id: minikube
         uses: medyagh/setup-minikube@latest
 
+      - name: get to folder
+        run: cd ./3/yamls
+
       - name: apply yml
         run: kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
       
@@ -40,7 +40,7 @@ jobs:
         run: echo "SERVICE_URL=$(minikube service rick-morty-api-service --url)" >> $GITHUB_ENV 
     
   test: 
-    needs: deploy 
+    needs: test 
     runs-on: ubuntu-latest 
     steps: 
       - name: Checkout code 
