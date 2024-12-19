@@ -23,15 +23,15 @@ or :
 python app.py arg1 arg2 arg3
 ```
 
-by defult arguments are: ( Human Alive Earth )
+by default arguments are: ( Human Alive Earth )
 
-or u can run defreant arg :    
+or u can run deferent arg :    
 arg1 = Species    
 arg2 = Status    
 arg3 = Origin 
 
-2 opthion for output:
-1. in the project folder 1 the csv will be at folder `./static`
+2 options for output:
+1. folder 1 the csv will be at folder `./static`
 2. localhost:5000 or http://127.0.0.1:5000 click the download to ur download folder
 
 **-- help command**

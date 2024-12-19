@@ -4,6 +4,8 @@
 1. run project on minikube
 2. deploy service ingress
 
+    **!!! folder 3 also serve the git-action !!!**
+
 download:
 1. download folder 3 
 2. navigate to the folder $(pwd)/3/yamls
@@ -19,7 +21,7 @@ minikube addons enable ingress
 ```
 
 
-applay the yamls:
+apply the yamls:
 --------------------------
 run :
 ```
@@ -39,7 +41,7 @@ kubectl get pods
 apply the app on url :
 ---------------------
 
-from Nodeport for defult(arg):
+run with Nodeport for default(arg):
 get: http://<minikube-ip>:<nodeport>
 ```
 minikube service rick-morty-api-service --url
@@ -57,7 +59,7 @@ use ingerss:
 ```
 minikube ip
 ```
-3. nvigate to hosts 
+3. navigate to hosts 
 C:\Windows\System32\drivers\etc\hosts 
  - Add the following line to the file:
 ```
@@ -65,7 +67,7 @@ C:\Windows\System32\drivers\etc\hosts
 ```
 run app on url with dns:
 
-defult arg:
+default arg:
 ```
 http://rick-morty
 ```
@@ -73,7 +75,7 @@ new arg:
 ```
 http://rick-morty/?species=Human&status=Dead&origin=Earth
 ```
-check-helth
+check-health
 ```
 http://rick-morty/health
 ```

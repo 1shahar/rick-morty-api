@@ -37,7 +37,7 @@ Species= human
 Status = Alive   
 Origin = Earth
 
-1. url can change the Query  :
+1. url can change the Query  :  
 Species= arg1    
 Status = arg2   
 Origin = arg3
@@ -45,7 +45,7 @@ Origin = arg3
 ```
 http://localhost:5000/?species=Human&status=Alive&origin=Earth
 ```
-1. check healt 
+1. check health 
 
 ```
 http://localhost:5000/health

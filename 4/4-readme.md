@@ -1,8 +1,9 @@
 # Rick And Morty Api
 ---
 # task 4 helm
-1. run project on minikube
+1. run project on minikube with helm tool
 2. deploy service ingress
+3. need helm to be is install 
 
 download:
 1. download folder 4 
@@ -13,7 +14,7 @@ start minikube
 ```
 minikube start
 ```
-apply the prject :
+apply to helm tool :
 ```
 helm upgrade --install rick-morty-api .
 ```
@@ -29,16 +30,7 @@ get the ip:
 ```
 minikube ip
 ```
-nvigate to hosts :   
 
-`C:\Windows\System32\drivers\etc\hosts` 
- - Add the following line to the file:   
-```
-<minikube-ip>  rick-morty
-```
-
-from Nodeport for defult(arg) open url and get  < minikube-ip > : < nodeport >:
-```
 get: http://<minikube-ip>:<nodeport>
 ```
 minikube service rick-morty-api-service --url
@@ -50,12 +42,18 @@ http://<minikube-ip>:<nodeport>/?species=Human&status=Alive&origin=Earth
 
 use ingerss:
 ---------------
+
+navigate to hosts :   
+
+`C:\Windows\System32\drivers\etc\hosts` 
+ - Add the following line to the file:   
 ```
 <minikube-ip>  rick-morty
 ```
+
 run app on url with dns:
 
-defult arg:
+default arg:
 ```
 http://rick-morty
 ```
@@ -63,7 +61,7 @@ new arg:
 ```
 http://rick-morty/?species=Human&status=Dead&origin=Earth
 ```
-check-helth
+check-health
 ```
 http://rick-morty/health
 ```
