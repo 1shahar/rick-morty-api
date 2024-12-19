@@ -14,7 +14,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Update and upgrade system
-        run: ls 
+        run: ls && cd 3/yamls && ls
+
+      - name: Update and upgrade system
+        run: echo $(pwd)
 
       - name: Verify working directory
         run: pwd && ls -al
