@@ -30,15 +30,16 @@ jobs:
       - name: apply YAMLs
         run: |
           cd /home/runner/work/rick-morty-api/rick-morty-api/3/yamls
-          kubectl apply -f Deployment.yaml -f Service.yaml -f Ingress.yaml
+          kubectl apply -f Deployment.yaml -f Service.yaml 
       
-      - name: Wait for apply
-        run: sleep 30
-        
-      # - name: Get service URL 
-      #   id: get-service-url 
-      #   run: echo "SERVICE_URL=$(minikube service rick-morty-api-service --url)" >> $GITHUB_ENV 
-
+      - name: Wait for Minikube to be ready
+        run: |
+          echo "check if minikube ready..."
+          until minikube ip; do
+          echo "minikube not ready retrying in 5 sec..."
+          sleep 5
+          done
+          
   test: 
     needs: deploy 
     runs-on: ubuntu-latest 
@@ -46,8 +47,10 @@ jobs:
       - name: Checkout code 
         uses: actions/checkout@v4 
       
-      - name: test
+      - name: get service and test it
         run: |
           MINIKUBE_IP=$(minikube ip)
-          SERVICE_URL="http://${MINIKUBE_IP}:8080"  # Assuming your service runs on port 8080
+          NODEPORT=$(kubectl get svc rick-morty-api-service -o=jsonpath='{.spec.ports[0].nodePort}')
+          SERVICE_URL="http://${MINIKUBE_IP}:${NODEPORT}"
           curl -f $SERVICE_URL || exit 1
+        
